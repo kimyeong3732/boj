@@ -48,33 +48,33 @@ class Solution {
 		last = s - 1;
 		int lastcnt = 0;
 		
-		Queue<point> q = new ArrayDeque<>();
+		Queue<Node> q = new ArrayDeque<>();
 		
-		q.offer(new point(last, 0));
+		q.offer(new Node(last, 0));
 		visit[last] = true;
 		
 		while(!q.isEmpty()) {
-			point p = q.poll();
+			Node node = q.poll();
 			
-			if(p.cnt!=lastcnt || (p.cnt==lastcnt && last<p.num)) {
-				lastcnt = p.cnt;
-				last = p.num;
+			if(node.cnt!=lastcnt || (node.cnt==lastcnt && last<node.num)) {
+				lastcnt = node.cnt;
+				last = node.num;
 			}
 			
-			for(int i: edges.get(p.num)) {
+			for(int i: edges.get(node.num)) {
 				if(visit[i])
 					continue;
 				visit[i] = true;
-				q.offer(new point(i, p.cnt+1));
+				q.offer(new Node(i, node.cnt+1));
 			}
 		}
 	}
-}
-
-class point {
-	int num, cnt;
-	point(int num, int cnt) {
-		this.num = num;
-		this.cnt = cnt;
+	
+	static class Node {
+		int num, cnt;
+		Node(int num, int cnt) {
+			this.num = num;
+			this.cnt = cnt;
+		}
 	}
 }
