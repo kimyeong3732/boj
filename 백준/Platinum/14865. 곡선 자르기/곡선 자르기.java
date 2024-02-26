@@ -1,9 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
@@ -15,7 +13,7 @@ import java.util.StringTokenizer;
 class Main {
 
 	static int n;
-	static List<Mountain> ms = new ArrayList<>();;
+	static PriorityQueue<Mountain> ms = new PriorityQueue<>((m1, m2) -> m1.s-m2.s);
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int n = Integer.parseInt(br.readLine());
@@ -39,7 +37,7 @@ class Main {
 			int y = Integer.parseInt(st.nextToken());
 			
 			// 이전 점과 입력 받은 점이 x 축을 지나는 경우
-			if(y*by < 0) {
+			if((y/Math.abs(y))*(by/Math.abs(by)) < 0) {
 				int dir = (y-by) / Math.abs(y-by); // 방향값 1: 올라가는 방향, -1: 내려가는 방향
 				q.offer(new ZeroXPoint(dir, x)); // 방향과 x 값 저장
 			}
@@ -48,7 +46,7 @@ class Main {
 		}
 		
 		// 맨 처음 시작점과 맨 마지막 점의 선분이 x 축을 지나는 경우
-		if(sy*by < 0) {
+		if((sy/Math.abs(sy))*(by/Math.abs(by)) < 0) {
 			int dir = (sy-by) / Math.abs(sy-by);
 			q.offer(new ZeroXPoint(dir, sx));
 		}
@@ -72,16 +70,15 @@ class Main {
 			}
 		}
 		
-		// 저장된 봉우리를 시작점 기준으로 정렬
-		Collections.sort(ms, (m1, m2) -> m1.s-m2.s);
-		
 		int counta = 0;
 		int countb = 0;
 		
 		int lasta = Integer.MIN_VALUE;
 		int lastb = Integer.MIN_VALUE;
 		
-		for(Mountain m: ms) {
+		while(!ms.isEmpty()) {
+			Mountain m = ms.poll();
+			
 			// 가장 바깥쪽 봉우리만 체크
 			if(m.s > lasta) {
 				counta++;
