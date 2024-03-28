@@ -22,7 +22,7 @@ class Solution {
 				for(int j=0; j<N; j++) {
 					int temp = Integer.parseInt(st.nextToken());
 					
-					if(temp == 0) {
+					if(i!=j && temp==0) {
 						temp = 1000;
 					}
 					mat[i][j] = temp;
@@ -40,15 +40,7 @@ class Solution {
 	static void floid() {
 		for(int i=0; i<N; i++ ) {
 			for(int j=0; j<N; j++) {
-				if(j == i) {
-					continue;
-				}
-				
 				for(int k=0; k<N; k++) {
-					if(k==i || k==j) {
-						continue;
-					}
-					
 					mat[j][k] = Math.min(mat[j][k], mat[j][i] + mat[i][k]);
 				}
 			}
@@ -66,9 +58,7 @@ class Solution {
 			int local_sum = 0;
 			
 			for(int j=0; j<N; j++) {
-				if(i != j) {
-					local_sum += mat[i][j];
-				}
+                local_sum += mat[i][j];
 			}
 			
 			if(result > local_sum) {
